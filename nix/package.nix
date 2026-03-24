@@ -1,12 +1,12 @@
 { lib, stdenv, jdk, maven, jdk11, makeWrapper, wrapGAppsHook3, autoPatchelfHook
-, gtk3, glib, xorg, freetype, fontconfig, zlib, libsecret, webkitgtk_4_0, libGL
+, gtk3, glib, xorg, freetype, fontconfig, zlib, libsecret, webkitgtk_4_1, libGL
 , alsa-lib, copyDesktopItems, makeDesktopItem, modelio-src, mvnDeps, }:
 
 let
   shared = import ./lib.nix { inherit jdk11; };
 
   libs = shared.runtimeLibs {
-    inherit gtk3 glib xorg freetype fontconfig zlib libsecret webkitgtk_4_0
+    inherit gtk3 glib xorg freetype fontconfig zlib libsecret webkitgtk_4_1
       libGL alsa-lib stdenv;
   };
 

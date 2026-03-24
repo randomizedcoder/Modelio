@@ -53,7 +53,7 @@
 
   # Native libraries needed at runtime (GTK, X11, WebKit, etc.)
   runtimeLibs = { gtk3, glib, xorg, freetype, fontconfig, zlib, libsecret
-    , webkitgtk_4_0, libGL, alsa-lib, stdenv, }: [
+    , webkitgtk_4_1, libGL, alsa-lib, stdenv, }: [
       gtk3
       glib
       xorg.libX11
@@ -66,7 +66,7 @@
       fontconfig
       zlib
       libsecret
-      webkitgtk_4_0
+      webkitgtk_4_1
       libGL
       alsa-lib
       stdenv.cc.cc.lib

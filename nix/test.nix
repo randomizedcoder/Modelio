@@ -1,21 +1,9 @@
-{
-  runCommand,
-  writeShellApplication,
-  modelio,
-  xvfb-run,
-  coreutils,
-  procps,
-}:
+{ runCommand, writeShellApplication, modelio, xvfb-run, coreutils, procps, }:
 
 let
   smokeTest = writeShellApplication {
     name = "modelio-smoke-test";
-    runtimeInputs = [
-      modelio
-      xvfb-run
-      coreutils
-      procps
-    ];
+    runtimeInputs = [ modelio xvfb-run coreutils procps ];
     text = ''
       echo "=== Modelio smoke test ==="
 
@@ -45,8 +33,7 @@ let
       echo "=== All smoke tests passed ==="
     '';
   };
-in
-runCommand "modelio-smoke-test" { nativeBuildInputs = [ smokeTest ]; } ''
+in runCommand "modelio-smoke-test" { nativeBuildInputs = [ smokeTest ]; } ''
   modelio-smoke-test
   touch $out
 ''
