@@ -19,6 +19,7 @@
   alsa-lib,
   copyDesktopItems,
   makeDesktopItem,
+  modelio-src,
 }:
 
 let
@@ -26,12 +27,12 @@ let
   version = "5.4.1";
 
   # Phase A: Fixed-output derivation to cache Maven/Tycho dependencies.
-  # After the first build attempt, replace lib.fakeHash with the real hash
-  # from the error message.
+  # Uses pinned source (modelio-src flake input) so local edits don't
+  # invalidate the cache. Update the pin with: nix flake update modelio-src
   mvnDeps = stdenv.mkDerivation {
     pname = "${pname}-maven-deps";
     inherit version;
-    inherit src;
+    src = modelio-src;
 
     nativeBuildInputs = [
       maven
@@ -116,7 +117,7 @@ let
 
     outputHashAlgo = "sha256";
     outputHashMode = "recursive";
-    outputHash = "sha256-pHS8OIdOXixwBBCH4detJMbZEduX54xekzg3NcK3+DA=";
+    outputHash = "sha256-t/kjjK4obD4jaQ5+skv2LQ48NuNvSkcXh+zankKapbI=";
 
     impureEnvVars = lib.fetchers.proxyImpureEnvVars;
   };
