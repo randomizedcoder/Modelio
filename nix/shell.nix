@@ -1,21 +1,9 @@
-{
-  mkShell,
-  maven,
-  jdk11,
-  gtk3,
-  glib,
-  xorg,
-  freetype,
-  fontconfig,
-  zlib,
-  libsecret,
-}:
+{ mkShell, maven, jdk11, gtk3, glib, xorg, freetype, fontconfig, zlib, libsecret
+, }:
 
-mkShell {
-  packages = [
-    maven
-    jdk11
-  ];
+let shared = import ./lib.nix { inherit jdk11; };
+in mkShell {
+  packages = [ maven jdk11 ];
 
   buildInputs = [
     gtk3
@@ -30,40 +18,7 @@ mkShell {
   ];
 
   shellHook = ''
-    export JAVA_HOME="${jdk11}"
-
-    # Auto-generate toolchains.xml for Tycho
-    mkdir -p "$HOME/.m2"
-    cat > "$HOME/.m2/toolchains.xml" <<XML
-    <?xml version="1.0" encoding="UTF-8"?>
-    <toolchains xmlns="http://maven.apache.org/TOOLCHAINS/1.1.0"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://maven.apache.org/TOOLCHAINS/1.1.0
-        http://maven.apache.org/xsd/toolchains-1.1.0.xsd">
-      <toolchain>
-        <type>jdk</type>
-        <provides>
-          <version>1.8</version>
-          <vendor>adoptOpenJDK</vendor>
-          <id>JavaSE-1.8</id>
-        </provides>
-        <configuration>
-          <jdkHome>${jdk11}</jdkHome>
-        </configuration>
-      </toolchain>
-      <toolchain>
-        <type>jdk</type>
-        <provides>
-          <version>11</version>
-          <vendor>adoptOpenJDK</vendor>
-          <id>JavaSE-11</id>
-        </provides>
-        <configuration>
-          <jdkHome>${jdk11}</jdkHome>
-        </configuration>
-      </toolchain>
-    </toolchains>
-    XML
+    ${shared.setupToolchains}
 
     echo "Modelio dev shell"
     echo "  JAVA_HOME=$JAVA_HOME"
